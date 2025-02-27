@@ -12,3 +12,5 @@ This repository contains implementations of motif search algorithms, including:
 - **Gibbs Sampling**: A probabilistic algorithm for motif discovery in biological sequences.  
 
 These algorithms are commonly used in bioinformatics to identify conserved patterns in DNA sequences.  
+
+## Structure:
