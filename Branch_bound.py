@@ -74,7 +74,7 @@ def branch_and_bound(seqs, num_seqs, tam_seq, tam_motif):
 
 def mostra_motifs(resultado):
     """
-    Exibe os melhores conjuntos de offsets e os motivos correspondentes.
+    Exibe os melhores conjuntos de offsets e os motifs correspondentes.
     
     Parâmetros:
     resultado (tuple): Saída da função `branch_and_bound`, contendo os melhores offsets e o score máximo.
