@@ -1,7 +1,7 @@
 # Portf-lio-AAB
 Members:
 
-Alexandre Sá Ferreira PG55691 n/
+Alexandre Sá Ferreira PG55691 \n
 André
 João
 Sami
