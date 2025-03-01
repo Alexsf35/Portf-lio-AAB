@@ -3,7 +3,6 @@ import random
 #1) Escolher posições iniciais de forma aleatória s = (s1,...,st) e formar os segmentos respectivos. 
 
 seqs = ["ATGGTCGC","ATGTCTGA","CCGTAGTA","ATGCATGCATCGATC"]
-
 def pos_init(seqs: list,tam_motif: int):
     tam_seqs = []
     for i in seqs:
@@ -13,21 +12,33 @@ def pos_init(seqs: list,tam_motif: int):
     for i, seqs in enumerate(seqs):
         ni = random.randint(0, tam_seqs[i] - tam_motif)
         pos.append(ni)
-        motif.append(seqs[ni:ni+tam_motif])
     
-    return pos, motif
-pos_i,motifs= pos_init(seqs,4)
-print(pos_i,motifs)
+    return pos
+pos_i= pos_init(seqs,4)
+print(pos_i)
+
 
 #2) Escolher aleatoriamente uma sequência i
 
-def choose_seq(seqs):
-    
-    return seqs[random.randint(0,len(seqs)-1)]
+def choose_seq(seqs,pos_i, tam_motif):
+    motif = [[],[]]
+    random_seq = random.choice(seqs)
+    seqs2 = seqs[:]
+    index = seqs2.index(random_seq)
 
-chosen_seq = choose_seq(seqs)
+    for seq,pos in zip(seqs2,pos_i):
+        motif[0].append(pos)
+        motif[1].append(seq[pos:pos+tam_motif])
+
+    seqs2.pop(index)
+    motif[0].pop(index)
+    motif[1].pop(index)
+    return random_seq, seqs2,motif
+
+chosen_seq, seqs2, motifs = choose_seq(seqs,pos_i,4)
 print(chosen_seq)
-
+print(seqs2)
+print(motifs)
 
 #3) Criar matriz_oc P das outras sequências a partir de s
 
@@ -48,8 +59,9 @@ def matriz_oc(seqs: list, pseudocont: float = 0):
     
     return mat
 
-ocorrencias = matriz_oc(motifs)
+ocorrencias = matriz_oc(motifs[1])
 print(ocorrencias)
+
 
 
 
@@ -100,4 +112,18 @@ for nuc, values in pwm_matrix.items():
 seq_consensos = consenso(pwm_matrix)
 print(seq_consensos)
 
+
 #4) Para cada posição p na sequência i, calcular a probabilidade do segmento iniciado em p com tamanho L, ser gerado por P. 
+
+def prob_p(chosen_seq,tam_motif,pwm_matrix):
+    #Creating the motifs
+    motifs_i = []
+    for i in range(0,len(chosen_seq)-tam_motif+1):
+        motifs_i.append(chosen_seq[i:i+tam_motif])
+    
+    #Calculating probabilities
+    
+
+prob_p(chosen_seq,4,pwm_matrix)
+
+
