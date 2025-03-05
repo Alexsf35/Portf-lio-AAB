@@ -109,14 +109,14 @@ def pwm(ocorrencias: dict):
     for nuc in ocorrencias: #Cria a matriz para a pwm.
         pwm[nuc] = []
 
-    col_sums = []
+    col_sums = [] # Lista para armazenar a soma dos valores de cada coluna da matriz de contagens.
     for j in range(len(ocorrencias["A"])):
         soma = 0
-        for nuc in ocorrencias:
+        for nuc in ocorrencias: #Soma os valores todos da coluna para obter a soma total.
             soma += ocorrencias[nuc][j]
-        col_sums.append(soma)
+        col_sums.append(soma) #Adiciona os resultados à lista.
 
-    for nuc in ocorrencias:
+    for nuc in ocorrencias: #Para cada nucleótido na matriz calcula a probabilidade do nucleótido.
         for k in range(len(ocorrencias[nuc])):
             if col_sums[k] > 0:
                 pwm[nuc].append(ocorrencias[nuc][k] / col_sums[k])
@@ -172,11 +172,11 @@ def prob_p(chosen_seq, tam_motif, pwm_matrix):
     """
     
     motifs_i = []
-    for i in range(len(chosen_seq) - tam_motif + 1):
-        motifs_i.append(chosen_seq[i:i+tam_motif])
+    for i in range(len(chosen_seq) - tam_motif + 1): #Percorre a sequência escolhida para extrair motifs
+        motifs_i.append(chosen_seq[i:i+tam_motif]) #Adiciona cada motif possível à lista.
     
     motif_probs = {}
-    for motif in motifs_i:
+    for motif in motifs_i: #Multiplica a probabilidade de cada posição
         prob = 1
         for i, nuc in enumerate(motif):
             prob *= pwm_matrix[nuc][i]
@@ -199,14 +199,14 @@ def normalize_probabilities(motif_probs):
         Dicionário com probabilidades normalizadas.
     """
 
-    total_prob = sum(motif_probs.values())
+    total_prob = sum(motif_probs.values()) #Soma todas as probabilidades
 
     if total_prob == 0: # Se todas as probabilidades forem 0, distribui uniformemente
-        num_motifs = len(motif_probs)
+        num_motifs = len(motif_probs) #Obtém o número total de motifs
         return {motif: 1 / num_motifs for motif in motif_probs}
     
     normalized_probs = {}
-    for motif, prob in motif_probs.items():
+    for motif, prob in motif_probs.items(): # Normaliza a probabilidade dividindo pelo total.
         normalized_probs[motif] = prob / total_prob
     return normalized_probs
 
@@ -214,7 +214,7 @@ def normalize_probabilities(motif_probs):
 def roulette_wheel(normal_probs):
 
     """
-    Escolhe um motif com base nas probabilidades normalizadas.
+    Escolhe um motif com base nas probabilidades normalizadas de forma estocástica.
     
     Parameters:
     normal_probs : dict
@@ -227,7 +227,7 @@ def roulette_wheel(normal_probs):
 
     motifs = list(normal_probs.keys())
     probabilities = list(normal_probs.values())
-    return random.choices(motifs, weights=probabilities, k=1)[0]
+    return random.choices(motifs, weights=probabilities, k=1)[0] # Realiza a escolha estocástica.
 
 #6) Repetir passos 2) a 5) enquanto for possível melhorar
 def gibbs_sampler(seqs, tam_motif, num_iterations=1000):
@@ -257,8 +257,8 @@ def gibbs_sampler(seqs, tam_motif, num_iterations=1000):
         motif_probs = prob_p(chosen_seq, tam_motif, pwm_matrix)
         normalized_probs = normalize_probabilities(motif_probs)
         new_motif = roulette_wheel(normalized_probs)
-        new_position = [i for i in range(len(chosen_seq) - tam_motif + 1) if chosen_seq[i:i+tam_motif] == new_motif][0]
-        pos_i[random_index] = new_position
+        new_position = [i for i in range(len(chosen_seq) - tam_motif + 1) if chosen_seq[i:i+tam_motif] == new_motif][0] #Obtém a nova posição do motif
+        pos_i[random_index] = new_position # Atualiza a posição do motif na sequência escolhida.
         
         if iteration % 100 == 0:
             print(f"Iteration {iteration}: Current best motifs - {[seqs[i][pos_i[i]:pos_i[i] + tam_motif] for i in range(len(seqs))]}")
