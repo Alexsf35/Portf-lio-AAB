@@ -41,6 +41,15 @@ def branch_and_bound(seqs, num_seqs, tam_seq, tam_motif):
     melhor_score = 0
     melhores_offsets = []
 
+    # Dicionário de bases de DNA válidas
+    bases_validas = {'A', 'C', 'G', 'T', 'a', 'c', 'g', 't'}
+
+    # Validação das sequências de entrada
+    for seq in seqs:
+
+        if not all(base in bases_validas for base in seq):
+            raise ValueError(f'As sequências devem conter apenas A, C, G, T.')
+
     assert all(len(seq) == len(seqs[0]) for seq in seqs), 'As sequências têm que ter o mesmo tamanho!'
 
     def rec(offsets):
