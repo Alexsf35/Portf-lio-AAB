@@ -2,7 +2,7 @@
 
 ## Members:  
 - Alexandre Sá Ferreira PG55691  
-- André  
+- André Sá Gomes A97401
 - João  
 - Sami  
 
