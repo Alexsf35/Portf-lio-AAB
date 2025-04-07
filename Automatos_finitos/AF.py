@@ -60,7 +60,7 @@ class Automata:
                 match_positions.append(i - self.m) #Calcula a posição inicial da ocorrência do padrão.
         return match_positions #Retorna a lista de posições onde o padrão ocorre na sequência.
 
-    def print_table(self):
+    def print_table(self): #Não precisas testar esta função, é só para imprimir a tabela de maneira melhor
 
         states = self.process_sequence()
         occurrences = self.find_matches()
