@@ -1,7 +1,12 @@
 from prettytable import PrettyTable
 
 class Automata:
+
     def __init__(self, pattern,sequence):
+
+        if not pattern or len(pattern) < 2:
+            raise ValueError("O padrão deve conter pelo menos dois caracteres.")
+        
         self.pattern = pattern
         self.sequence = sequence
         self.alphabet = sorted(set(pattern))
