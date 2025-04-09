@@ -168,7 +168,7 @@ if __name__ == "__main__":
     seq = "TAGACAGAGA$"
     bwt_obj = BWT(seq, buildsufarray=True)
 
-    print("BWT:", bwt_obj.bwt)
+    print("BWT:", bwt_obj.bwt) 
     print("Inverse BWT:", bwt_obj.inverse_bwt())  
     print("Pattern matches for 'AGA':", bwt_obj.bw_matching_pos("AGA")) 
     print("BWT Matrix:")
