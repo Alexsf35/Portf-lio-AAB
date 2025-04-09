@@ -35,7 +35,7 @@ class TestTrie(unittest.TestCase):
         self.assertTrue(self.trie.procurar('casal'))
 
     def test_apagar_inexistente(self):
-        # Testa a exclusão de uma palavra que **não** está na Trie
+        # Testa a exclusão de uma palavra que não está na Trie
         self.assertFalse(self.trie.apagar_palavra('cachorro'))  # Deve retornar False porque 'cachorro' não foi inserida
 
         # Confirma que nenhuma palavra existente foi afetada

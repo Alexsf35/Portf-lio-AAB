@@ -52,9 +52,6 @@ class TestSuffixTree(unittest.TestCase):
         estrutura = self.st.obter_estrutura()
         self.assertIsInstance(estrutura, dict)
 
-        # # Verifica se há caminhos válidos até os finais ('$') com tuplas de posição
-        # ocorrencias = self.st._coleta_ocorrencias(estrutura)
-        # self.assertTrue(all(isinstance(pos, tuple) and len(pos) == 2 for pos in ocorrencias))
 
 if __name__ == '__main__':
     unittest.main()
