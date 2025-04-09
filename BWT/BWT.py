@@ -2,7 +2,7 @@ class BWT:
     def __init__(self, seq="", buildsufarray=False, encoded=False):
         """
         Initialize the BWT class.
-        If `encoded` is True, sets self.bwt to the given sequence.
+        If encoded is True, sets self.bwt to the given sequence.
         Otherwise, builds the BWT and optionally the suffix array.
         """
         self.seq = seq
@@ -47,7 +47,7 @@ class BWT:
 
     def get_first_col(self):
         """
-        Returns the first column (sorted version of BWT).
+        Returns the first column.
         """
         first_col = [] # Lista para guardar os caracteres da primeira coluna da matriz BWT
         for c in self.bwt:
@@ -57,7 +57,7 @@ class BWT:
 
     def find_ith_occ(self, l, elem, index):
         """
-        Finds the index of the i-th occurrence of `elem` in list `l`.
+        Finds the index of the i-th occurrence of elem in list l.
         """
         count = 0 # Contador para mostrar o número de ocorrências encontradas
         for i in range(len(l)):
@@ -93,7 +93,7 @@ class BWT:
         Computes the last-to-first mapping used in backward search.
         """
         first_col = self.get_first_col() # Obtemos a primeira coluna da matriz BWT
-        result = [] # Lista onde vamos guardar o mapeamento "last-to-first"
+        result = [] # Lista onde vamos guardar o mapeamento
 
         for i in range(len(self.bwt)):
             c = self.bwt[i] # Caractere atual da última coluna
@@ -141,10 +141,10 @@ class BWT:
 
     def bw_matching_pos(self, pattern):
         """
-        Returns the positions (from the suffix array) where the pattern occurs.
+        Returns the positions from the suffix array where the pattern occurs.
         """
         if not hasattr(self, 'sa'):
-            raise ValueError("Suffix array not built. Use buildsufarray=True when building BWT.")
+            raise ValueError("Suffix array not built.")
 
         result = [] #Inicializa a lista
         matches = self.bw_matching(pattern) # Obtemos as linhas da matriz BWT onde o padrão foi encontrado
@@ -168,9 +168,9 @@ if __name__ == "__main__":
     seq = "TAGACAGAGA$"
     bwt_obj = BWT(seq, buildsufarray=True)
 
-    print("BWT:", bwt_obj.bwt)  # Should be: AGGGTCAAAA$
-    print("Inverse BWT:", bwt_obj.inverse_bwt())  # Should be: TAGACAGAGA$
-    print("Pattern matches for 'AGA':", bwt_obj.bw_matching_pos("AGA"))  # Should be list of positions
+    print("BWT:", bwt_obj.bwt)
+    print("Inverse BWT:", bwt_obj.inverse_bwt())  
+    print("Pattern matches for 'AGA':", bwt_obj.bw_matching_pos("AGA")) 
     print("BWT Matrix:")
     bwt_obj.show_bwt_matrix()
 
@@ -178,4 +178,4 @@ if __name__ == "__main__":
 encoded = "AGGGTCAAAA$"
 bwt_decoded = BWT(encoded, encoded=True)
 original = bwt_decoded.inverse_bwt()
-print(original)  # Output: TAGACAGAGA$
+print(original) 
