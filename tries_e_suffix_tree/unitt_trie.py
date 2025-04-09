@@ -1,4 +1,4 @@
-from trie import *  # Importa a classe Trie definida no seu módulo
+from trie import *  
 import unittest
 from pprint import pformat
 
@@ -20,7 +20,7 @@ class TestTrie(unittest.TestCase):
             self.assertTrue(self.trie.procurar(word), f"Expected '{word}' to be found in trie")
 
     def test_procurar_inexistente(self):
-        # Testa palavras que **não** estão na Trie
+        # Testa palavras que não estão na Trie
         self.assertFalse(self.trie.procurar('cas'), "Prefix 'cas' should not be considered a full word")
         self.assertFalse(self.trie.procurar('cascata'))  # Palavra completamente nova
         self.assertFalse(self.trie.procurar('casamento'))  # Outra palavra nova com prefixo similar
