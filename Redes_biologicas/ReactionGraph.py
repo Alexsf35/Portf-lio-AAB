@@ -26,9 +26,7 @@ class MetabolicNetwork(MyGraph):
                     left, right = val.split('<=>')
                     cons = [m.strip() for m in left.split('+')]
                     prod = [m.strip() for m in right.split('+')]
-                    # Original reaction (forward)
                     self.reactions[reac] = {'cons': cons, 'prod': prod}
-                    # Reversed reaction
                     reverse_reac = reac + '_R'
                     self.reactions[reverse_reac] = {'cons': prod, 'prod': cons}
                 else:
@@ -49,6 +47,10 @@ class MetabolicNetwork(MyGraph):
                 self.add_edge(reac, met)
 
     def metabolitos(self):
+        """
+        Devolve uma lista de todos os metabolitos únicos presentes nas reações.
+
+        """
         todos_metabolitos = set()
         for reacao in self.reactions.values():
             for met in reacao['cons']:
@@ -58,12 +60,24 @@ class MetabolicNetwork(MyGraph):
         return sorted(list(todos_metabolitos))
 
     def consome(self, react):
+        """
+        Devolve a lista de metabolitos consumidos por uma reação específica.
+
+        """
         return self.reactions[react]['cons']
 
     def produz(self, react):
+        """
+        Devolve a lista de metabolitos produzidos por uma reação específica.
+
+        """
         return self.reactions[react]['prod']
 
     def consomem(self, met):
+        """
+        Devolve a lista de reações que consomem um determinado metabolito.
+
+        """
         reacoes = []
         for react, val in self.reactions.items():
             if met in val['cons']:
@@ -71,6 +85,10 @@ class MetabolicNetwork(MyGraph):
         return reacoes
 
     def produzem(self, met):
+        """
+        Devolve a lista de reações que produzem um determinado metabolito.
+
+        """
         reacoes = []
         for react, val in self.reactions.items():
             if met in val['prod']:
@@ -78,6 +96,10 @@ class MetabolicNetwork(MyGraph):
         return reacoes
 
     def mlig(self, met):
+        """
+        Devolve os metabolitos produzidos por reações que consomem um determinado metabolito.
+
+        """
         reacoes_consumidoras = self.consomem(met)
         produtos = set()
         for react in reacoes_consumidoras:
@@ -86,6 +108,10 @@ class MetabolicNetwork(MyGraph):
         return sorted(list(produtos))
 
     def rlig(self, react):
+        """
+        Devolve as reações que consomem os produtos de uma reação específica.
+
+        """
         produtos = self.produz(react)
         reacoes_consomidoras = set()
         for met in produtos:
@@ -94,6 +120,11 @@ class MetabolicNetwork(MyGraph):
         return sorted(list(reacoes_consomidoras))
 
     def ativadas_por(self, *metabolitos):
+        """
+        Devolve as reações ativadas por um conjunto de metabolitos.
+        Uma reação é ativada se todos os seus metabolitos consumidos estiverem no conjunto dado.
+
+        """
         metabolitos_set = set(metabolitos)
         reacoes = []
         for react, val in self.reactions.items():
@@ -102,6 +133,10 @@ class MetabolicNetwork(MyGraph):
         return reacoes
 
     def produzidos_por(self, *lista_reacoes):
+        """
+        Devolve todos os metabolitos produzidos por um conjunto de reações.
+
+        """
         produtos = set()
         for react in lista_reacoes:
             for met in self.produz(react):
@@ -109,6 +144,11 @@ class MetabolicNetwork(MyGraph):
         return sorted(list(produtos))
 
     def m_ativ(self, *metabolitos):
+        """
+        Devolve todos os metabolitos resultantes de reações ativadas por um conjunto inicial de metabolitos.
+        Considera reações adicionais ativadas por produtos intermediários.
+
+        """
         if not metabolitos or not all(isinstance(m, str) for m in metabolitos):
             return []
         metabolitos_ativos = set(metabolitos)
@@ -124,6 +164,10 @@ class MetabolicNetwork(MyGraph):
         return sorted(list(metabolitos_ativos))
 
     def r_ativ(self, *metabolitos):
+        """
+        Devolve todas as reações ativadas (direta ou indiretamente) por um conjunto de metabolitos.
+
+        """
         if not metabolitos or not all(isinstance(m, str) for m in metabolitos):
             return []
         ativadas = set()
@@ -142,6 +186,11 @@ class MetabolicNetwork(MyGraph):
         return sorted(list(ativadas))
 
     def visualize_network(self):
+        """
+        Visualiza a rede metabólica como um grafo direcionado, com reações em caixas e metabolitos em elipses.
+        Ligações vermelhas indicam consumo e ligações verdes indicam produção.
+
+        """
         dot = Digraph(comment='Metabolic Network')
 
         for react in self.reactions:
